@@ -1,0 +1,15 @@
+#!/bin/bash
+
+$gitrepo= "https://github.com/Azure-Samples/app-service-web-dotnet-get-started"
+
+$webappname= "CBAWebapp"
+
+az group create --location Australiaeast --name myResourceGroup
+
+az appservice plan create --name $webappname --resource-group myResourceGroup --sku FREE
+
+az webapp create --name $webappname --resource-group myResourceGroup --plan $webappname
+ 
+az webapp deployment source config --name $webappname --resource-group myResourceGroup --repo-url $gitrepo --branch master --manual-integration
+
+echo http://$webappname.azurewebsites.net
