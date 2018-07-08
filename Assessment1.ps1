@@ -1,4 +1,4 @@
-﻿$source = 'C:\source' 
+$source = 'C:\source' 
 
 If (!(Test-Path -Path $source -PathType Container)) {New-Item -Path $source -ItemType Directory | Out-Null} 
 
@@ -21,14 +21,14 @@ If (!(Test-Path -Path $destinationPath -PathType Leaf)) {
     }
 
  
-#Once we've downloaded all our files lets install them. 
+ 
 foreach ($package in $packages) { 
     $packageName = $package.title 
     $fileName = Split-Path $package.url -Leaf 
     $destinationPath = $package.Destination + "\" + $fileName 
     $Arguments = $package.Arguments 
     Write-Output "Installing $packageName" 
+    Start-Process -FilePath msiexec.exe -ArgumentList '/i',$destinationPath,'/q' -Wait -PassThru -Verb "RunAs"
 
 
-Invoke-Expression -Command "$destinationPath $Arguments" 
 }
